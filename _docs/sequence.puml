@@ -1,0 +1,30 @@
+@startuml
+actor ShopOwner
+participant Dappazon
+actor Buyer
+
+
+ShopOwner -> Dappazon: constructor()
+activate Dappazon
+Dappazon --> ShopOwner: owner = msg.sender
+deactivate Dappazon
+
+ShopOwner -> Dappazon: list(_id, _name, _category, _image, _cost, _rating, _stock)
+activate Dappazon
+Dappazon --> ShopOwner: Item created and added to items
+Dappazon --> ShopOwner: emit List(_name, _cost, _stock)
+deactivate Dappazon
+
+Buyer -> Dappazon: buy(_id)
+activate Dappazon
+Dappazon --> Buyer: Check if enough ether and item in stock
+Dappazon --> Buyer: Order created and added to orders
+Dappazon --> Buyer: emit Buy(msg.sender, orderCount[msg.sender], item.id)
+deactivate Dappazon
+
+ShopOwner -> Dappazon: withdraw()
+activate Dappazon
+Dappazon --> ShopOwner: Transfer balance to owner
+deactivate Dappazon
+
+@enduml
